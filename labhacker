@@ -1,0 +1,26 @@
+#!/bin/bash
+# A shell script to change SpaceAPI status
+
+URL="http://status.laboratoriohacker.org"
+KEY="CHANGE"
+
+opt=$1
+case $opt in
+        aberto)
+                curl --data-urlencode sensors='{"state":{"open":true}}' --data key=$KEY $URL/sensor/set
+		echo -e "Status alterado com sucesso.... \e[42m\e[1;37m [ABERTO] \e[0m"
+                ;;
+        fechado)
+                curl --data-urlencode sensors='{"state":{"open":false}}' --data key=$KEY $URL/sensor/set
+		echo -e "Status alterado com sucesso.... \e[41m\e[1;37m [FECHADO] \e[0m"
+                ;;
+        status)
+		echo -e `(curl --silent $URL/status/bash)`
+                ;;
+        *)
+        	    echo "Ferramenta para alterar o status do hackerspace"
+                echo "Modo de utilização: ./labhacker {aberto|fechado|status}"
+                echo "	aberto  : Modifica o status para aberto."
+                echo "	fechado : Modifica o status para fechado."	
+                echo "	status  : Retorna se o hackerspace está aberto ou não."	;;
+esac
